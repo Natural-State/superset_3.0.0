@@ -90,6 +90,7 @@ RUN mkdir -p superset/static \
     && pip install --no-cache-dir -r requirements/local.txt
 
 COPY --chown=superset:superset --from=superset-node /app/superset/static/assets superset/static/assets
+
 ## Lastly, let's install superset itself
 COPY --chown=superset:superset superset superset
 
@@ -98,6 +99,12 @@ RUN chown -R superset:superset ./* \
     && flask fab babel-compile --target superset/translations
 
 COPY --chmod=755 ./docker/run-server.sh /usr/bin/
+
+USER superset
+
+HEALTHCHECK CMD curl -f "http://localhost:$SUPERSET_PORT/health"
+
+EXPOSE ${SUPERSET_PORT}
 
 ######
 
@@ -119,13 +126,9 @@ RUN pip install --no-cache gevent psycopg2 redis
 
 RUN pip install "apache-superset[databricks]"
 
-######
-
 USER superset
 
-HEALTHCHECK CMD curl -f "http://localhost:$SUPERSET_PORT/health"
-
-EXPOSE ${SUPERSET_PORT}
+######
 
 CMD ["/usr/bin/run-server.sh"]
 
