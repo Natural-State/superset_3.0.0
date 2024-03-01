@@ -115,7 +115,7 @@ RUN apt-get update && \
     apt-get install -y wget && \
     apt-get install --no-install-recommends -y firefox-esr
 
-ENV GECKODRIVER_VERSION=0.30.0
+ENV GECKODRIVER_VERSION=0.32.0
 RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz && \
     tar -x geckodriver -zf geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz -O > /usr/bin/geckodriver && \
     chmod 755 /usr/bin/geckodriver && \
