@@ -100,6 +100,7 @@ RUN chown -R superset:superset ./* \
 
 # COPY --chmod=755 ./docker/run-server.sh /usr/bin/
 COPY ./docker/run-server.sh /usr/bin/
+RUN chmod 755 /usr/bin/run-server.sh
 
 USER superset
 
