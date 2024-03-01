@@ -98,7 +98,8 @@ RUN chown -R superset:superset ./* \
     && pip install --no-cache-dir -e . \
     && flask fab babel-compile --target superset/translations
 
-COPY --chmod=755 ./docker/run-server.sh /usr/bin/
+# COPY --chmod=755 ./docker/run-server.sh /usr/bin/
+COPY ./docker/run-server.sh /usr/bin/
 
 USER superset
 
