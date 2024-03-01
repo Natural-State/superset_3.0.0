@@ -137,39 +137,40 @@ CMD ["/usr/bin/run-server.sh"]
 ######################################################################
 # Dev image...
 ######################################################################
-# FROM lean AS dev
-# ARG GECKODRIVER_VERSION=v0.32.0
-# ARG FIREFOX_VERSION=106.0.3
+FROM lean AS dev
 
-# USER root
+ARG GECKODRIVER_VERSION=v0.32.0
+ARG FIREFOX_VERSION=106.0.3
 
-# RUN apt-get update -q \
-#     && apt-get install -yq --no-install-recommends \
-#         libnss3 \
-#         libdbus-glib-1-2 \
-#         libgtk-3-0 \
-#         libx11-xcb1 \
-#         libasound2 \
-#         libxtst6 \
-#         wget \
-#     # Install GeckoDriver WebDriver
-#     && wget https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz -O - | tar xfz - -C /usr/local/bin \
-#     # Install Firefox
-#     && wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2 -O - | tar xfj - -C /opt \
-#     && ln -s /opt/firefox/firefox /usr/local/bin/firefox \
-#     && apt-get autoremove -yqq --purge wget && rm -rf /var/lib/apt/lists/* && apt-get clean
+USER root
 
-# COPY ./requirements/*.txt ./docker/requirements-*.txt/ /app/requirements/
-# # Cache everything for dev purposes...
-# RUN pip install --no-cache-dir -r /app/requirements/docker.txt \
-#     && pip install --no-cache-dir -r /app/requirements/requirements-local.txt || true
+RUN apt-get update -q \
+    && apt-get install -yq --no-install-recommends \
+        libnss3 \
+        libdbus-glib-1-2 \
+        libgtk-3-0 \
+        libx11-xcb1 \
+        libasound2 \
+        libxtst6 \
+        wget \
+    # Install GeckoDriver WebDriver
+    # && wget https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz -O - | tar xfz - -C /usr/local/bin \
+    # Install Firefox
+    && wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2 -O - | tar xfj - -C /opt \
+    && ln -s /opt/firefox/firefox /usr/local/bin/firefox \
+    && apt-get autoremove -yqq --purge wget && rm -rf /var/lib/apt/lists/* && apt-get clean
 
-# USER superset
+COPY ./requirements/*.txt ./docker/requirements-*.txt/ /app/requirements/
+# Cache everything for dev purposes...
+RUN pip install --no-cache-dir -r /app/requirements/docker.txt \
+    && pip install --no-cache-dir -r /app/requirements/requirements-local.txt || true
+
+USER superset
 ######################################################################
 # CI image...
 ######################################################################
-# FROM lean AS ci
+FROM lean AS ci
 
-# COPY --chown=superset --chmod=755 ./docker/*.sh /app/docker/
+COPY --chown=superset --chmod=755 ./docker/*.sh /app/docker/
 
-# CMD ["/app/docker/docker-ci.sh"]
+CMD ["/app/docker/docker-ci.sh"]
