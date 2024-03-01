@@ -171,6 +171,7 @@ USER superset
 ######################################################################
 FROM lean AS ci
 
-COPY --chown=superset --chmod=755 ./docker/*.sh /app/docker/
+COPY --chown=superset ./docker/*.sh /app/docker/
+RUN chmod 755 /app/docker/*.sh
 
 CMD ["/app/docker/docker-ci.sh"]
