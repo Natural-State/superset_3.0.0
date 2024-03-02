@@ -77,8 +77,8 @@ import {
 import { PivotTableChartPlugin as PivotTableChartPluginV2 } from '@superset-ui/plugin-chart-pivot-table';
 import { HandlebarsChartPlugin } from '@superset-ui/plugin-chart-handlebars';
 import { LiquidChartPlugin } from 'superset-plugin-chart-liquid';
-import { SupersetPluginsChartHeatmap } from "superset-plugins-chart-heatmap";
-import { SupersetPluginsChartScatter } from 'superset-plugin-chart-scatter';
+import { SupersetPluginsChartHeatmap } from 'superset-plugins-chart-heatmap';
+import { SupersetPluginsChartScatter } from 'superset-plugins-chart-scatter';
 import { SupersetPluginChartInfoPanel } from 'superset-plugin-chart-info-panel';
 import { SupersetPluginsChartBoxPlot } from 'superset-plugin-chart-box-plot';
 import { SupersetPluginsChartLineSlider } from 'superset-plugin-chart-line-slider';
